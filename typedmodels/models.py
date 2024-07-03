@@ -141,6 +141,10 @@ class TypedModelMetaclass(ModelBase):
                             remote_field.model._typedmodels_subtypes
                         )
 
+                # skip virtual fields without db columns
+                if hasattr(field, "json_field_name"):
+                    continue
+
                 # Check if a field with this name has already been added to class
                 try:
                     duplicate_field = base_class._meta.get_field(field_name)
